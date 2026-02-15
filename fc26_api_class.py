@@ -205,28 +205,92 @@ class FC26_API:
             self._last_error = exc
             return None
 
+    def export_dataframe(
+        self,
+        df: Optional[pd.DataFrame],
+        filepath: str,
+        file_format: str = "csv",
+    ) -> bool:
+        """
+        Export a pandas DataFrame to a file in the specified format.
+
+        Args:
+            df: The DataFrame to export.
+            filepath: The path where the file should be saved.
+            file_format: The export format ('csv', 'excel', 'json'). Defaults to 'csv'.
+
+        Returns:
+            True if export was successful, False otherwise.
+        """
+        if df is None or df.empty:
+            print(f"Warning: DataFrame is empty or None. No file exported.")
+            return False
+
+        try:
+            file_format = file_format.lower()
+            if file_format == "csv":
+                df.to_csv(filepath, index=False)
+                print(f"✓ Data exported to CSV: {filepath}")
+            elif file_format == "excel":
+                df.to_excel(filepath, index=False)
+                print(f"✓ Data exported to Excel: {filepath}")
+            elif file_format == "json":
+                df.to_json(filepath, orient="records", indent=2)
+                print(f"✓ Data exported to JSON: {filepath}")
+            else:
+                print(f"Error: Unsupported format '{file_format}'. Use 'csv', 'excel', or 'json'.")
+                return False
+            return True
+        except Exception as exc:
+            print(f"Error exporting DataFrame: {exc}")
+            self._last_error = FC26APIError(f"Export failed: {exc}")
+            return False
+
+    def main():
+        api = FC26_API()
+
+        # Example 1: Get club details by ID
+        # Replace "123456" with a valid club ID
+        club_id = "3439844"
+        club_details = api.get_club_details(club_id)
+
+        if club_details is not None:
+            print("\n--- Club Details ---")
+            print(club_details)
+            # Export club details to different formats
+            #api.export_dataframe(club_details, "club_details.csv", file_format="csv")
+            api.export_dataframe(club_details, "club_details.json", file_format="json")
+            #api.export_dataframe(club_details, "club_details.xlsx", file_format="excel")
+        else:
+            print(f"\n--- No details found for club ID: {club_id} ---")
+
+        # Example 2: Search for a club by name
+        # Replace "MyClub" with a valid club name
+        club_name = "Fly kick davies"
+        search_results = api.search_club_by_name(club_name)
+
+        if search_results is not None:
+            print("\n--- Search Results ---")
+            print(search_results)
+            # Export search results to different formats
+            #api.export_dataframe(search_results, "search_results.csv", file_format="csv")
+            #api.export_dataframe(search_results, "search_results.json", file_format="json")
+            #api.export_dataframe(search_results, "search_results.xlsx", file_format="excel")
+        else:
+            print(f"\n--- No clubs found with the name: {club_name} ---")
+
+        # Example 3: Get normalized club matches
+        matches = api.get_club_matches_normalized(club_id, match_type="leagueMatch")
+        if matches is not None:
+            print("\n--- Club Matches ---")
+            print(matches)
+            # Export matches to different formats
+            api.export_dataframe(matches, "club_matches.csv", file_format="csv")
+            #api.export_dataframe(matches, "club_matches.json", file_format="json")
+            #api.export_dataframe(matches, "club_matches.xlsx", file_format="excel")
+        else:
+            print(f"\n--- No matches found for club ID: {club_id} ---")
 
 if __name__ == "__main__":
-    api = FC26_API()
-
-    # Example 1: Get club details by ID
-    # Replace "123456" with a valid club ID
-    club_id = "123456"
-    club_details = api.get_club_details(club_id)
-
-    if club_details is not None:
-        print("\n--- Club Details ---")
-        print(club_details)
-    else:
-        print(f"\n--- No details found for club ID: {club_id} ---")
-
-    # Example 2: Search for a club by name
-    # Replace "MyClub" with a valid club name
-    club_name = "MyClub"
-    search_results = api.search_club_by_name(club_name)
-
-    if search_results is not None:
-        print("\n--- Search Results ---")
-        print(search_results)
-    else:
-        print(f"\n--- No clubs found with the name: {club_name} ---")
+    main_ = FC26_API
+    main_.main()

@@ -1,0 +1,34 @@
+[
+  {
+    "name":"fly kick davies",
+    "clubId":3439844,
+    "regionId":4344147,
+    "teamId":1367,
+    "customKit":{
+      "stadName":"Tier 1 Stadium",
+      "kitId":"11198464",
+      "seasonalTeamId":"131404",
+      "seasonalKitId":"1076461568",
+      "selectedKitType":"1",
+      "customKitId":"7800",
+      "customAwayKitId":"7636",
+      "customThirdKitId":"7600",
+      "customKeeperKitId":"5024",
+      "kitColor1":"592397",
+      "kitColor2":"15921906",
+      "kitColor3":"592397",
+      "kitColor4":"15921906",
+      "kitAColor1":"592397",
+      "kitAColor2":"1256053",
+      "kitAColor3":"14935011",
+      "kitAColor4":"15921906",
+      "kitThrdColor1":"592397",
+      "kitThrdColor2":"33627",
+      "kitThrdColor3":"1909296",
+      "kitThrdColor4":"15921906",
+      "dCustomKit":"0",
+      "crestColor":"16777215",
+      "crestAssetId":"99160201"
+    }
+  }
+]
